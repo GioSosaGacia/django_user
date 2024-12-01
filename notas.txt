@@ -1,0 +1,75 @@
+De esta manera creamos un entorno virtual -m = modulo el ultumo venv es el nombre de la carpeta que se creará
+    C:\Python_Total\Django_crud>py -m venv venv
+    python --version checa la versión de python que estaremos utilizando
+
+Para activar el entorno virtual creado venv:
+    .\venv\Scripts\activate  
+
+pip install django -> para instalar django 
+
+django-admin --version -> verifica la version de django-admin 
+5.1.3
+
+Para crear un nuevo projcto en django:
+    django-admin startproject djangocrud . el punto indica que lo debe de crear dentro de la carpeta raiz y no crear una carpeta adicional para el proyecto
+
+Para activar el servidor:
+    python manage.py runserver
+
+
+
+    ***********************APLICACION TASK***************************
+pARA INICIAR una palicación usamos el comando:
+    python manage.py startapp tasks
+Despues agregamos l apalicacion creada en settings.py en el apartado de:
+    
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'tasks',
+    ]
+
+
+
+********Views nos permite visitar una url*******
+Tambien se debe de importar HttpResponse dentro del mismo moculo de views
+    def helloword(request):
+    return HttpResponse('Hola mundo desde Django')
+
+
+Para poder visualizar el hola mundo debemos de agregar la vista a urls del proyecto creado djangocrud, dentro de path primero va la ruta y despues la funcion que se llamara al seleccionar tal url
+    from tasks import views
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', views.helloword), nota: las comillas de la url va sin espacion en caso de no agregar nombre
+    ]
+
+HttpResponse: # Cuando vamos a usa templates no es necesario usar HttpResponse si no render ya que renderiza los formatos html, En las vistas de Django, se utiliza HttpResponse para devolver el resultado de una solicitud. Si la vista no devuelve un objeto HttpResponse, Django asumirá que no está manejando correctamente la solicitud.
+
+Render: Renderizar plantillas HTML: La función render() es la forma más común de devolver respuestas HTML dinámicas. Permite utilizar plantillas en las que se pueden incrustar variables o datos de Python.
+
+    Parámetros de la función render()
+        *request: El objeto de solicitud HTTP que contiene todos los datos de la solicitud hecha por el cliente (como las cookies, los datos del formulario, etc.).
+        *template_name: El nombre de la plantilla HTML que se va a renderizar (en este caso, 'mi_plantilla.html').
+        *context: Un diccionario que contiene las variables que quieres pasar a la plantilla. Estas variables pueden ser cualquier tipo de dato que necesites mostrar dinámicamente.
+
+
+**********************FORMS*********************
+cADA FORMULARIO debe de usar csrf_token ya que es una medida de seguridad para el uso de los formularios, evita que sean suplantados 
+
+    <form action="/singup/" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button>
+            Singup
+        </button>
+    </form>
+
+En url se debe de agragar la ruta a la cual se envíara  el formulario
+    path('singup/', views.helloword),
