@@ -1,5 +1,8 @@
 <h1>Singup</h1>
 
+{% comment %} Muestra ek error que se origina en la funcion singup {% endcomment %}
+<strong>{{error}}</strong>
+
 {% comment %} Con action indicamos a donde queremos enviar los datos, que es a singup y si lo omitimos por defecto los envia a la misma ruta donde fueron almacenados o requeridos {% endcomment %}
 <form action="/singup/" method="POST">
     {% csrf_token %}
