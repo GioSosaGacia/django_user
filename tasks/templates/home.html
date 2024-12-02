@@ -1,1 +1,16 @@
+
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Home</h1>
+<p>¿Qué hace exactamente login()?
+    Autenticación del usuario: login() establece la sesión de un usuario que ha sido autenticado correctamente. Esto significa que después de que un usuario ingresa sus credenciales y se verifica su identidad, Django puede registrar al usuario en la sesión.
+</p>
+<p>
+    Establecimiento de la sesión: La función crea una entrada en la sesión del navegador del cliente para mantener al usuario "conectado" durante la duración de la sesión. Esta entrada contiene el ID del usuario y otros datos asociados, lo que permite que Django identifique al usuario en futuras solicitudes sin necesidad de que este vuelva a iniciar sesión.
+</p>
+<p> 
+    Redirección del usuario: Usualmente, después de llamar a login(), se redirige al usuario a una página a la que tenía acceso antes de iniciar sesión (por ejemplo, la página principal o una página protegida que solo pueden ver los usuarios autenticados).
+</p>
+{% endblock  %}
+

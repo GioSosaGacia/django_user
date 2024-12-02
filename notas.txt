@@ -170,3 +170,30 @@ Redirect: no redireccionan a un template en especifico o ruta definida usando el
 
 ***************templates and condicionales***************
 *********************************************************
+
+Para desloguearnos entramos a modo desarrollador en el apartado de aplicacions - cookies - sessionid click derecho eliminar sessionid
+
+Dentro de base creamos un if en el cual si un usuario esta logeado aparacere el icono o el url de logout y si esta deslogueado aparecera singup:
+    <nav>
+        <ul>
+            <li>
+                <a href='/'>Home</a>
+            </li>
+            <li>
+                <a href='/tasks'>Tasks</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href='/logout'>Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href='/singup'>Singup</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+****************Logout************************
+*******************************************
