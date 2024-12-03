@@ -243,4 +243,31 @@ TAMBIEN tenemos la clase de AuthenticationForm la cual usaremos para iniciar ses
 *********************************************************
 
 *Elemento usados para el modelo task.
-    1.
+    1.ORM Object Relational Mapping permite crear, actualizar, eliminar o leer datos
+    2.Creamos la base de datos con la tabla tasks en el archivo -> models.py
+    3.Importamos la clase de User a models y creamos la relacion para agregar la foreignkey de user a task
+    4.Hacemos el makemigrations para crear la tabla y despues hacemos la migración con migrate y ejecuta la tabla
+    5.Podemos interactuar con los modelos desde python manage.py shell, solo que una forma mas compleja que con l ainterfaz grafica
+    6.Para acceder a la interfaz grafica podemos usar la de admin, solo que para ingresar debemos de uniciar sesion con un super usuario y lo podemos crear con el siguiete comando: "python manage.py createsuperuser"
+        python manage.py createsuperuser
+        Username (leave blank to use 'giova'): GiovanniSosa
+        Email address: giovanni-sosa-12@outlook.com
+        Password: 
+        Password (again):
+        Superuser created successfully.
+    7.Para que la interfaz tenga acceso a las tablas creadas en models.py debemos de aregarlas a admin.py de nuestra aplicacion de task
+    8.Agregamos el metodo str dento de models.py para poder visualizar el nombre de la tarea y el usuario asignado a tal tarea.
+    9.Podemos agregra datos de solo lectrura en el mismo apartado de admin.py para poder vizualizarlos desde la interfaz grafica donde se agrego:
+            from django.contrib import admin
+            from .models import Task
+
+            # esta clase nos permite ver en la interfaz de admin campos de solo lectura como el campo created ya que es un campo que se llena de manera automatica al crear cualquier tarea
+            # Hereda todo lo que este en admin.ModelAdmin
+            class TaskAdmin(admin.ModelAdmin):
+                # Indicamos que son campos de solo lectura, colocamos una coma al final porque es una tupla
+                readonly_fields = ("created", )
+                
+            # Register your models here.
+            admin.site.register(Task, TaskAdmin)
+
+
