@@ -4,12 +4,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # django por defecto ya contiene un formularario para la autenticaion de usarios y para utilizarlo debemos de importar la siguiente clase ->UserCreationForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 # Para crear usuarios importa la clase User
 from django.contrib.auth.models import User
-#permite crear una cookie que indica que se ha iniciado sesión, nota: no valida que los datos sean correctos
-from django.contrib.auth import login
-#tambien podemos usar errores especificos como integrity error
+# permite crear una cookie que indica que se ha iniciado sesión, nota: no valida que los datos sean correctos, logout permite cerrar sesión
+from django.contrib.auth import login, logout, authenticate
+# tambien podemos usar errores especificos como integrity error
 from django.db import IntegrityError
 
 
@@ -32,14 +32,14 @@ def singup(request):
             try:
                 # register user
                 user = User.objects.create_user(
-                username=request.POST['username'], password=request.POST['password1'])
+                    username=request.POST['username'], password=request.POST['password1'])
                 user.save()
-                #return HttpResponse('User created successfuly')
-                #indica que el usuario esta conectado en tasks y lo podemos ver en modo desarrollo apartado aplicación y en cookies, se abre un sessionid
+                # return HttpResponse('User created successfuly')
+                # indica que el usuario esta conectado en tasks y lo podemos ver en modo desarrollo apartado aplicación y en cookies, se abre un sessionid
                 login(request, user)
-                #al agregar un usuario y guardarlo nos redirecciona a tasks, al ejecutar return se finaliza cualquier funcion o seccion de codigo.. 
+                # al agregar un usuario y guardarlo nos redirecciona a tasks, al ejecutar return se finaliza cualquier funcion o seccion de codigo..
                 return redirect('tasks')
-            except IntegrityError: #-> podemos considerar exepciones a errores en especifico
+            except IntegrityError:  # -> podemos considerar exepciones a errores en especifico
                 return render(request, 'singup.html', {
                     'form': UserCreationForm,
                     'error': 'User already exists'
@@ -49,7 +49,32 @@ def singup(request):
             'form': UserCreationForm,
             'error': 'Password do not match'
         })
-        
-        
+
+
 def tasks(request):
-    return render(request,'tasks.html')
+    return render(request, 'tasks.html')
+
+
+# usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
+def singout(request):
+    logout(request)
+    return redirect('home')
+
+
+def singin(request):
+    if request.method == 'GET':
+        return render(request, 'singin.html', {
+            'form': AuthenticationForm
+        })
+    else:
+        # print(request.POST)
+        user =authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, 'singin.html', {
+                'form': AuthenticationForm,
+                'error': 'Username or Password is incorrect' 
+            })
+        else:
+            login(request, user)
+            return redirect('tasks')

@@ -1,0 +1,19 @@
+
+{% extends "base.html" %}
+
+{% block content  %}
+<h1>Singin</h1>
+{{error}}
+
+<form method="POST" action="/singin/">
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <!-- form fields go here -->
+    <button type="submit">
+        Submit
+    </button>
+</form>
+
+{% endblock  %}

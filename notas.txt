@@ -196,4 +196,51 @@ Dentro de base creamos un if en el cual si un usuario esta logeado aparacere el 
 
 
 ****************Logout************************
-*******************************************
+**********************************************
+e importamos la clase logout depues de login en la misma linea:
+    #usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
+    def singout(request):
+        logout(request)
+        return redirect('home')
+    
+Tambien agregamos la ruta y la funcion creada en views:
+     path('logout/', views.singout, name='logout'),
+
+
+
+*******************Login******************
+******************************************
+Para que el usuario vuelva a autenticarse de nuevo y no tener que registrarse cada que necesite iniciar sesión
+    1.Usamos AuthenticationForm
+    2.authenticate
+    3.Agregamos un error en caso de que el usuario y password no coincida
+    4.Agregamos el url singin 
+    5.Creamo el template singin.html
+
+
+TAMBIEN tenemos la clase de AuthenticationForm la cual usaremos para iniciar sesión, nos permite comprobar si el usuario existe.
+
+*Usando POST permite que los datos no sean expuestos dentro de la misma url:
+
+*Con ESTA SECCION vemos como envia datos con POST:
+    def singin(request):
+    if request.method == 'GET':
+        return render(request, 'singin.html',{
+            'form': AuthenticationForm
+        })
+    else:
+        print(request.POST)
+        return render(request, 'singin.html',{
+            'form': AuthenticationForm
+        })
+
+*Para hacer la autenticacion tambien importamos -> authenticate
+
+
+
+
+******************************Tasks model****************
+*********************************************************
+
+*Elemento usados para el modelo task.
+    1.
