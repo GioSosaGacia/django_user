@@ -271,3 +271,25 @@ TAMBIEN tenemos la clase de AuthenticationForm la cual usaremos para iniciar ses
             admin.site.register(Task, TaskAdmin)
 
 
+
+****************Formulario de Tareas/task model **********************+
+**********************************************************
+1. crear un template y vista para crear tareas, agregamos el url 
+2.Podemos crear formularios a partir de las tablas ya creadas en los modelos, creando un archivo de formularios dentro del proyecto de tareas -> forms.py
+3.Dentro de forms.py debemos de importar:
+    #Importamos la clase ModelForm
+    from django.forms import ModelForm
+    # Importamos el modelo con el cual se creara el formulario
+    from .models import Task
+    #creamos el formulario en form.py
+4.Importamos el formulario creado en forms.py a views.py 
+    si agregamos el codigo correspondiente a views en la funcion create_task
+5.Agregamos la ruta a urls.py
+
+
+
+************Guardar tareas****************
+********************************************
+
+
+

@@ -15,6 +15,9 @@
             <li>
                 <a href='/tasks'>Tasks</a>
             </li>
+            {% comment %} <li>
+                <a href='/create_task'>Create task</a>
+            </li> {% endcomment %}
             {% if user.is_authenticated %}
                 <li>
                     <a href='/logout'>Logout</a>

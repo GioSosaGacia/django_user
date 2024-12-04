@@ -11,7 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 # tambien podemos usar errores especificos como integrity error
 from django.db import IntegrityError
-
+#importamos el formulario creado en forms.py
+from .forms import TaskForm
 
 # Create your views here.
 
@@ -54,6 +55,17 @@ def singup(request):
 def tasks(request):
     return render(request, 'tasks.html')
 
+def create_task(request):
+    if request.method == 'GET':
+        return render(request, 'create_task.html',{
+            'form': TaskForm
+        })
+    else:
+        print(request.POST)
+        return render(request, 'create_task.html',{
+            'form': TaskForm
+        })
+
 
 # usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
 def singout(request):
@@ -78,3 +90,7 @@ def singin(request):
         else:
             login(request, user)
             return redirect('tasks')
+        
+        
+
+    
