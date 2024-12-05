@@ -336,3 +336,33 @@ Podemos guardar los datos de dos formas:
 *****************Listar Tareas******************
 *************************************************
 
+1.Importamos el modelo de task a views.py 
+2.Creamos el template task.html
+3.Obtenemos las tareas creadas con Taks.objects.all() y las implementamos dentro delrender como un diccionario:
+    def tasks(request):
+    Task.objects.all()
+    return render(request, 'tasks.html',{'tasks':tasks})
+4.Dentro del tamplate debemos de recorrer las tareas a traves de un for:
+        
+{% extends "base.html" %}
+
+        {% block content %}
+        <h1>Tasks</h1>
+
+        <ul>
+            {% for task in tasks %}
+            <li>  
+                {% if task.important %} 
+                <strong>{{task.title}}</strong>
+                {% else %}
+                    {{task.title}}
+                {% endif %}
+                
+                <p>{{task.description}}</p>
+                <p>{{task.user.username}}</p>
+                
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% endblock  %}

@@ -13,6 +13,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 #importamos el formulario creado en forms.py
 from .forms import TaskForm
+from .models import Task
 
 # Create your views here.
 
@@ -53,7 +54,12 @@ def singup(request):
 
 
 def tasks(request):
-    return render(request, 'tasks.html')
+    # De esta manera me arrojará todas la tareas insertadas dentro de la base de datos
+    #Task.objects.all()
+    #De estra otra forma me arrojara solo las tareas del usuario que esta logeado.
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, 'tasks.html',{'tasks':tasks})
+
 
 def create_task(request):
     if request.method == 'GET':
