@@ -290,6 +290,49 @@ TAMBIEN tenemos la clase de AuthenticationForm la cual usaremos para iniciar ses
 
 ************Guardar tareas****************
 ********************************************
+Podemos guardar los datos de dos formas:
+    1.Utilizando models.py importando los datos.
+    2.Utilizando forms.py importando los datos para crear y guardar los datos del formulario al mismo tiempo
+
+*Utilizamos TaskForms: de esta maneta nos imprime el formulario en consola sin guardar los datos en la bd y lo estaremos utilizando para guardar los datos
+    def tasks(request):
+    return render(request, 'tasks.html')
+
+    def create_task(request):
+        if request.method == 'GET':
+            return render(request, 'create_task.html',{
+                'form': TaskForm
+            })
+        else:
+            form = TaskForm(request.POST)
+            print(form)
+            return render(request, 'create_task.html',{
+                'form': TaskForm
+            })
+
+    #De estra otra manera ya guardamos datos en nuestra DB:
+        def create_task(request):
+            if request.method == 'GET':
+                return render(request, 'create_task.html',{
+                    'form': TaskForm
+                })
+            else:
+                try:
+                form = TaskForm(request.POST)
+                new_task = form.save(commit=False)
+                new_task.user = request.user
+                new_task.save()
+                return redirect('tasks')
+            except ValueError:
+                return render(request, 'create_task.html',{
+                'form': TaskForm,
+                'error':'Please provide a valida data'
+            })
+
+4.Dentro de template de create_task tambien debemos de insertar la variable del diccionario que marcara el error {{error}}
 
 
+
+*****************Listar Tareas******************
+*************************************************
 

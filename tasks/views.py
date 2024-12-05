@@ -61,10 +61,19 @@ def create_task(request):
             'form': TaskForm
         })
     else:
-        print(request.POST)
-        return render(request, 'create_task.html',{
-            'form': TaskForm
+    # Para guardar los datos dentro de la base de datos:
+        try:
+            form = TaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'create_task.html',{
+            'form': TaskForm,
+            'error':'Please provide a valida data'
         })
+            
 
 
 # usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
