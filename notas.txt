@@ -366,3 +366,13 @@ Podemos guardar los datos de dos formas:
         </ul>
 
         {% endblock  %}
+
+
+ ***********Obtenet Tarea******
+ ****************************************
+
+
+
+
+ ************Actualizar tarea************
+ ***************************************

@@ -12,13 +12,16 @@
             <li>
                 <a href='/'>Home</a>
             </li>
-            <li>
-                <a href='/tasks'>Tasks</a>
-            </li>
             {% comment %} <li>
                 <a href='/create_task'>Create task</a>
             </li> {% endcomment %}
             {% if user.is_authenticated %}
+            <li>
+                <a href='/tasks'>Tasks</a>
+            </li>
+            <li>
+                <a href='/tasks/create/'>Create Task</a>
+            </li>
                 <li>
                     <a href='/logout'>Logout</a>
                 </li>

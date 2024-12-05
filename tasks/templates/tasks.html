@@ -4,20 +4,22 @@
 {% block content %}
 <h1>Tasks</h1>
 
-<ul>
+<ol>
     {% for task in tasks %}
      <li>  
-        {% if task.important %} 
-        <strong>{{task.title}}</strong>
-        {% else %}
-            {{task.title}}
-        {% endif %}
-        
-        <p>{{task.description}}</p>
-        <p>{{task.user.username}}</p>
-        
+        {% comment %} Este a sirve para que cada tarea funcione como un link usando la funcion -> {% url + la url o nombre de la url a donde redireccionara la tarea + el parametro que es task.id(el cual viene de task_id) %} y este al seleccionar una tarea te redireccionará a task_detail.html y mostrará la tarea seleccionada {% endcomment %}
+        <a href='{% url "task_detail" task.id%}'> 
+            {% if task.important %} 
+            <strong>{{task.title}}</strong>
+            {% else %}
+                {{task.title}}
+            {% endif %}
+            
+            <p>{{task.description}}</p>
+            <p>{{task.user.username}}</p>
+        </a>
      </li>
     {% endfor %}
-</ul>
+</ol>
 
 {% endblock  %}

@@ -1,7 +1,7 @@
 # recibe respuestas http
 from django.http import HttpResponse
 # Permite renderizar los templates html
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # django por defecto ya contiene un formularario para la autenticaion de usarios y para utilizarlo debemos de importar la siguiente clase ->UserCreationForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -60,7 +60,7 @@ def tasks(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, 'tasks.html',{'tasks':tasks})
 
-
+  
 def create_task(request):
     if request.method == 'GET':
         return render(request, 'create_task.html',{
@@ -80,6 +80,14 @@ def create_task(request):
             'error':'Please provide a valida data'
         })
             
+
+
+def task_detail(request, task_id):
+    #Esta line permite obtener las tareas, pero si no encuantra una tarea marcara error
+    #task = Task.objects.get(pk=task_id)
+    #con get.object_ot_404 si no encuentra una tarea envia el 404 de not found y ya no se vera tan feo con en lalinea anterior
+    task = get_object_or_404(Task, pk=task_id)
+    return render(request, 'task_detail.html',{'task':task})
 
 
 # usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
