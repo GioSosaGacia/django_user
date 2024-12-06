@@ -26,6 +26,8 @@ urlpatterns = [
     path('tasks/create/', views.create_task, name='create_task'),
     # Agregamos un id dinamico para que valla seleccionando la tarea por id
     path('tasks/<int:task_id>', views.task_detail, name='task_detail'),
+    path('tasks/<int:task_id>/complete_task', views.complete_task, name='complete_task'),
+    path('tasks/<int:task_id>/delete', views.delete_task, name='delete_task'),
     path('logout/', views.singout, name='logout'),
     path('singin/', views.singin, name='singin'),
     

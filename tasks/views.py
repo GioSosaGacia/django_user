@@ -14,6 +14,8 @@ from django.db import IntegrityError
 #importamos el formulario creado en forms.py
 from .forms import TaskForm
 from .models import Task
+#importamos esta clase para saber la fecha enla que se finalizo la tarea
+from django.utils import timezone
 
 # Create your views here.
 
@@ -100,6 +102,21 @@ def task_detail(request, task_id):
         except ValueError:
             return render(request,'task_detail.html', {'task':task, 'form':form, 'error':'Error updating task'})
 
+
+def complete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method=='POST':
+        task.datecompleted = timezone.now()
+        task.save()
+        return redirect('tasks')
+        
+        
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method=='POST':
+        task.delete()
+        return redirect('tasks')
+    
 
 # usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
 def singout(request):

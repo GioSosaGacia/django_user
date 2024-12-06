@@ -390,4 +390,6 @@ Podemos guardar los datos de dos formas:
  
  ***********Completar y eliminar tarea***************
  ****************************************************
- 1.
+ 1.Se creo la vista complete_task
+ 2.Se agrego un formulario con el boton complete en task_detail
+ 3. tambien agregamos otro para aliminar la tarea
