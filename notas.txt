@@ -370,9 +370,24 @@ Podemos guardar los datos de dos formas:
 
  ***********Obtenet Tarea******
  ****************************************
-
+1.Creamos la función task_detail 
+2.Tambien creamos el template task_detail.html
+3.Agregamos un if dentro de base para separa los url's cuando un usuario esta logeado debe de mostrar home, task, create_task  and logout.
+4.
 
 
 
  ************Actualizar tarea************
  ***************************************
+ Como editar una tarea -> 
+
+ 1.Para agregra el detalle a taskdetail podemos crear un formulario nuevo o utilizar el formulario ya creado en create task, lo reutilizaremos solo para actualizar la tarea dentro de task_datail utilizando eñ metodo get para obtener la información de la tarea y post para hacer la actualización de la misma 
+
+ 2. En task_detail.html caragaremos el formulario para que muestr ala descripcion de la taria y aplciar la actualización en caso de ser necesario
+
+ 3.Utilizaremos un try catch para posibles errores
+
+ 
+ ***********Completar y eliminar tarea***************
+ ****************************************************
+ 1.

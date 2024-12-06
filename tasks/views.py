@@ -86,8 +86,19 @@ def task_detail(request, task_id):
     #Esta line permite obtener las tareas, pero si no encuantra una tarea marcara error
     #task = Task.objects.get(pk=task_id)
     #con get.object_ot_404 si no encuentra una tarea envia el 404 de not found y ya no se vera tan feo con en lalinea anterior
-    task = get_object_or_404(Task, pk=task_id)
-    return render(request, 'task_detail.html',{'task':task})
+    if request.method == 'GET':
+        task = get_object_or_404(Task, pk=task_id, user=request.user)
+        # Intanciamos task , instance -> recibe un modelo que en este caso es task
+        form = TaskForm(instance=task)
+        return render(request, 'task_detail.html',{'task':task, 'form':form})
+    else:
+        try:
+            task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user nos permite que cada usario solo vea las tareas relacionadas al mismo y no las de otros usuarios
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request,'task_detail.html', {'task':task, 'form':form, 'error':'Error updating task'})
 
 
 # usa la clase de logout la cual debemos de importar, no se puede usar logout como nombre de la función si no marcará error, al cerrar la sesión nos enviara a home
