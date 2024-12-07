@@ -17,7 +17,11 @@
             </li> {% endcomment %}
             {% if user.is_authenticated %}
             <li>
-                <a href='/tasks'>Tasks</a>
+                <a href='/tasks'>Tasks Pending</a>
+            </li>
+            <li>
+                {% comment %} Tambien se puede utilizar el nombre de la url {% endcomment %}
+                <a href='{% url "tasks_completed" %}'>Tasks Completed</a>
             </li>
             <li>
                 <a href='/tasks/create/'>Create Task</a>

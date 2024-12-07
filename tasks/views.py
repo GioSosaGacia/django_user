@@ -16,6 +16,8 @@ from .forms import TaskForm
 from .models import Task
 #importamos esta clase para saber la fecha enla que se finalizo la tarea
 from django.utils import timezone
+#Una forma de requerir login para entrar a determinadas secciones dentro de un programa, en este caso para crea un atarea es indispenszable estar logeado o iniciar seción  y con login_requiret podemos hacerlo, si no estas logeado te redirige a la pestaña de login y para ello debemos de insertar en settings.py la propiedad LOGIN_URL = 'singin' y con ello nos redireccionara a la ventana de login para iniciar sesión.
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -55,14 +57,22 @@ def singup(request):
         })
 
 
+@login_required
 def tasks(request):
     # De esta manera me arrojará todas la tareas insertadas dentro de la base de datos
     #Task.objects.all()
     #De estra otra forma me arrojara solo las tareas del usuario que esta logeado.
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True).order_by('-datecompleted')
     return render(request, 'tasks.html',{'tasks':tasks})
 
-  
+
+@login_required
+def tasks_completed(request):
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False)
+    return render(request, 'tasks.html',{'tasks':tasks})
+
+
+@login_required
 def create_task(request):
     if request.method == 'GET':
         return render(request, 'create_task.html',{
@@ -83,7 +93,7 @@ def create_task(request):
         })
             
 
-
+@login_required
 def task_detail(request, task_id):
     #Esta line permite obtener las tareas, pero si no encuantra una tarea marcara error
     #task = Task.objects.get(pk=task_id)
@@ -103,6 +113,7 @@ def task_detail(request, task_id):
             return render(request,'task_detail.html', {'task':task, 'form':form, 'error':'Error updating task'})
 
 
+@login_required
 def complete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method=='POST':
@@ -110,7 +121,8 @@ def complete_task(request, task_id):
         task.save()
         return redirect('tasks')
         
-        
+  
+@login_required      
 def delete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method=='POST':

@@ -393,3 +393,11 @@ Podemos guardar los datos de dos formas:
  1.Se creo la vista complete_task
  2.Se agrego un formulario con el boton complete en task_detail
  3. tambien agregamos otro para aliminar la tarea
+
+
+
+
+ ******Listar tareas completadas*******************
+ **********************************************
+ 1.Uso de login_required 
+ 2.Agregamos LOGIN_URL = 'singin' en settings.py 
