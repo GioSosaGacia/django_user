@@ -3,6 +3,9 @@
 
 {% block content %}
 
+{% comment %} para que lo cargue debe de esta load static {% endcomment %}
+{% load static%}
+
 <main class="container py-5">
     <section class="card card-body">
         <h1 class='display-1 text-center'>Django App</h1>
@@ -15,6 +18,37 @@
         <p> 
             Redirección del usuario: Usualmente, después de llamar a login(), se redirige al usuario a una página a la que tenía acceso antes de iniciar sesión (por ejemplo, la página principal o una página protegida que solo pueden ver los usuarios autenticados).
         </p>
+        <div>
+            <h2>Aneliz Jaimes</h2>
+            <p>De acuerdo con expertos en nutrición, el impulso a comer se origina desde el sistema nervioso central, conectado con órganos, tejidos distantes, tubo digestivo, entre otras estructuras corporales que solicitan energía para trabajar con normalidad.
+
+                Para que el sistema nervioso trabaje de manera completa se necesitan distintos tipos de comida, en periodos breves o prolongados, con el fin de que el sistema siempre esté trabajando y mantenga una buena digestión.
+                
+                El problema llega cuando las personas, por cuestiones externas o internas como ansiedad, estrés o alguna patología médica, confunden las señales de hambre y reciben un impulso a comer, confundiendo el concepto apetito con hambre.
+            </p>
+        </div>
+        <div>
+            <h2>Motivaciones de Aneliz Jaimes</h2>
+            <ol>
+                <li>
+                    Estar sabrosa para Giovanni
+                </li>
+                <li>
+                    Salud
+                </li>
+                <li>
+                    Estar en buena forma con un cuerpo tonificado
+                </li>
+                <li>
+                    Para estar fuerte y con movilidad en la tercera edad
+                </li>
+            </ol>
+            <center><img src="{% static 'aneliz.jpg' %}" alt='200px' width='200px'></center>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Mi Página Para la gestion de tareas y actividades recreativas by <strong>Angelica.</strong> Todos los derechos reservados.</p>
+        </footer>
 
         <div class="text-center">
             <a class="btn btn-secondary" href='/singin'>Singin</a>
