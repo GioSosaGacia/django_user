@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+# Lo importamos para usar las variables de entorno y subir el programa a render
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +23,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6e4zfh4c-%ni(oeu3&2@^s-j1-^6lk4%s%eost!t3u9!wr(i*('
+# SECRET_KEY = 'django-insecure-6e4zfh4c-%ni(oeu3&2@^s-j1-^6lk4%s%eost!t3u9!wr(i*('
+# 1.Comentamos la linea superior para usar render, de esta forma esta leyendo la variable de entorno que dara la nube
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+#2.Cambiamos el DEBUG CON:
+DEBUG ='RENDER' not in os.environ #SE ENCARGA DE aplicar true or false segun sea la ocasion 
 
+
+#Esta es una configuracion de seguridad de django, es una lista de dominios o direcciones IP que serán consideradas validad
 ALLOWED_HOSTS = []
+
+#Es una función de Python que se utiliza para obtener el valor de una variable de entorno. 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get
+#si esxiste la variable de entorno se agregara a allowed_host para que pueda responder peticiones de host validos o autorizados
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -48,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'djangocrud.urls'
@@ -74,12 +91,23 @@ WSGI_APPLICATION = 'djangocrud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+#Esto se usa de manera local usando sqlite
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Con render:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # Si no existe la base de datos 
+    'default':dj_database_url.config(
+        #usaras por defecto
+        default='postgresql://postgres:postgres@localhost/postgres',
+        conn_max_age=600
+    )          
     }
-}
 
 
 # Password validation
@@ -117,6 +145,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# This production code might break development mode, so we check whether we're in DEBUG mode
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #esta relacionada a login-required, la clase importada en views.py
 LOGIN_URL = '/singin'

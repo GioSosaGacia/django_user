@@ -443,4 +443,85 @@ Pero como vamos a dar estilos con bootstrap no podemos editar un formulario que 
 ++++++++++++++++++++
 
 **Cuando cremos nuestros propios formularios dentro de form.py de nuestra aplicacion podemo afregar propiedades como widgets para dar estiloa nuestro formulario o agregar los componentes deseados y poder estilizarlos:
-    
+
+
+
+
+
+************************Hacer un deploy**************
+****************************************************
+Para hacer el deploy de nuestro proyecto podemos usar Django render deploy: Render.com nos permite desplegar aplicaciones y el administrará el servidor. https://render.com/ -> nos podemos conectar mediante la cuanta de githut 
+
+1.Crear un servicio nuevo en WebServices-> seleccionar new web WebServices: el cual nos pide un proyecto de git o gitlab pero antes de cargarlo debemos de hacer la configuración en nuestro proyecto.
+
+Configuracion el proyecto y la podemos buscar con Djangorender.com:
+    1.O importar os
+    1:Debemos entrar a nuestro proyecto en settings.py y modificar secret key
+        SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+    2.Configurar el apartado DEBUG =  si render no esta en la variable de entorno coloca True caso contrario False
+        DEBUG ='RENDER' not in os.environ #SE ENCARGA DE aplicar true or false segun sea la ocasion 
+    3.#Esta es una configuracion de seguridad de django, es una lista de dominios o direcciones IP que serán consideradas validad
+        ALLOWED_HOSTS = []
+
+        #Es una función de Python que se utiliza para obtener el valor de una variable de entorno. 
+        RENDER_EXTERNAL_HOSTNAME = os.environ.get
+        #si esxiste la variable de entorno se agregara a allowed_host para que pueda responder peticiones de host validos o autorizados
+        if RENDER_EXTERNAL_HOSTNAME:
+            ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+    4.Debemos de utilizar una base de datos valida ya que sqlite. solo se usa para desarrollado:
+        4.1 debemos de instalar: pip install dj-database-url e importamos a settings -> import dj_database_url
+        4.2 instalamos psycopg2-binary que es conector para hacer la conexion a la db
+        4.3 configuramos DATABASES en setting.py 
+                # Con render:
+                DATABASES = {
+                    # Si no existe la base de datos 
+                    'default':dj_database_url.config(
+                        #usaras por defecto
+                        default='postgresql://postgres:postgres@localhost/postgres',
+                        conn_max_age=600
+                    )          
+                    }
+
+                    buscamo static files en render.com
+    5.Configuración de contenidos estaticos: html. css, js, etc.
+        Tambien vamos a instalar pip install whitenoise[brotli] dentro de la termina o consola
+    6.Agregamos esta linea -> 'whitenoise.middleware.WhiteNoiseMiddleware' dentro de MIDDLEWARE = []
+    7.En configuracion de archivos estaticos agregamos:
+        STATIC_URL = '/static/'
+
+        # This production code might break development mode, so we check whether we're in DEBUG mode
+        if not DEBUG:
+            # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+            STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+            # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+            # and renames the files with unique names for each version to support long-term caching
+            STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    7.1 crear el staticfiles con el siguiemte comando:
+        python manage.py collectstatic,   se spone que lo ejecuta la nube despues de ejecutarlo seleccionamos yes
+
+    8.ejecutamos built Script nos permite crear un scritp que se ejecutara en linux
+    8.1 creamos el archivo built.sh y dentro del archivo pegamos:utilice un archivo de script como "build.sh" para automatizar tareas que deben ejecutarse durante el proceso de construcción y despliegue de la aplicación.
+            #!/usr/bin/env bash
+            # Exit on error
+            set -o errexit
+
+            # Modify this line as needed for your package manager (pip, poetry, etc.)
+            pip install -r requirements.txt
+
+            # Convert static asset files
+            python manage.py collectstatic --no-input
+
+            # Apply any outstanding database migrations
+            python manage.py migrate
+
+
+    8.1Ejecutamos en bash(en este si funciona), cmd  o shel: chmod a+x build.sh
+        Presionamos ls es para ver si el script anterior corre o se ejecuta bien/verificar que muestre el archivo build.sh.
+
+    8.2 Añadimos estas dependencias al proyecto: links: https://www.uvicorn.org/ y https://gunicorn.org/
+            pip install gunicorn uvicorn
+            Se crea la carpeta requirements en la cual almaceta todas las dependencias que estamos usando
+            pip freeze > requirements.txt
+        
+
