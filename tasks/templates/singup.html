@@ -1,19 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Singup</h1>
 
-{% comment %} Muestra ek error que se origina en la funcion singup {% endcomment %}
-<strong>{{error}}</strong>
+<main class="container py-5">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            {% comment %} Con action indicamos a donde queremos enviar los datos, que es a singup y si lo omitimos por defecto los envia a la misma ruta donde fueron almacenados o requeridos {% endcomment %}
+            <form action="/singup/" method="POST" class="card card-body">
 
-{% comment %} Con action indicamos a donde queremos enviar los datos, que es a singup y si lo omitimos por defecto los envia a la misma ruta donde fueron almacenados o requeridos {% endcomment %}
-<form action="/singup/" method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
+                <h1 class="text-center">Singup</h1>
+                {% comment %} Muestra ek error que se origina en la funcion singup {% endcomment %}
+                <strong>{{error}}</strong>
 
-    <button>
-        Singup
-    </button>
-</form>
+                {% csrf_token %}
+                {% comment %} {{form}} -> era el formulario que usabamos antes de boostrap {% endcomment %}
+                
+                {% comment %} Crear formulario con boostrap {% endcomment %}
+                <div class="mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password1">Password</label>
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Write your password">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password2">Confirm your Password</label>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm your Password">
+                </div>
+
+                <button class="btn btn-primary">
+                    Singup
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
 
 {% endblock  %}

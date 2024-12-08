@@ -2,18 +2,39 @@
 {% extends "base.html" %}
 
 {% block content  %}
-<h1>Singin</h1>
-{{error}}
 
-<form method="POST" action="/singin/">
-    {% csrf_token %}
+<main class="container">
+    <div class="row">
+        <section class="col-md-4 offset-md-4 mt-5">
+            <form method="POST" action="/singin/" class="card card-body">
+                {{error}}
+                {% csrf_token %}
+                {% comment %} {{form.as_p}} {% endcomment %}
 
-    {{form.as_p}}
+                <h1 class="text-center">Singin</h1>
+                {% comment %} Muestra ek error que se origina en la funcion singup {% endcomment %}
+                <strong>{{error}}</strong>
 
-    <!-- form fields go here -->
-    <button type="submit">
-        Submit
-    </button>
-</form>
+                {% csrf_token %}
+                {% comment %} {{form}} -> era el formulario que usabamos antes de boostrap {% endcomment %}
+                
+                {% comment %} Crear formulario con boostrap {% endcomment %}
+                <div class="mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Write your password">
+                </div>
+                <!-- form fields go here -->
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </form>
+        </section>
+    </div>
+</main>
 
 {% endblock  %}

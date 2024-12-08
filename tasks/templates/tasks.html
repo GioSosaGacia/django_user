@@ -2,26 +2,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Tasks Pending</h1>
 
-<ol>
-    {% for task in tasks %}
-     <li>  
-        {% comment %} Este a sirve para que cada tarea funcione como un link usando la funcion -> {% url + la url o nombre de la url a donde redireccionara la tarea + el parametro que es task.id(el cual viene de task_id) %} y este al seleccionar una tarea te redireccionará a task_detail.html y mostrará la tarea seleccionada {% endcomment %}
-        <a href='{% url "task_detail" task.id%}'> 
-            {% if task.important %} 
-            <strong>{{task.title}}</strong>
-            {% else %}
-                {{task.title}}
-            {% endif %}
-            
-            <p>{{task.description}}</p>
-            <p><strong>{{task.user.username}}</strong></p>
+<main class="container">
+    <div class="row">
+        <div class="col-md-7 offset-md-2">
+            <h1 class="text-center display-3 py-5">Tasks Pending</h1>
+            <ol class="list-group">
+                {% for task in tasks %}
+                {% comment %} esta etiqueta solia ser un li y se cambio a "a"{% endcomment %}
+                <a class="list-group-item" href='{% url "task_detail" task.id%}'>  
+                    <header class="d-flex justify-content-between">
+                        {% comment %} Este a sirve para que cada tarea funcione como un link usando la funcion -> {% url + la url o nombre de la url a donde redireccionara la tarea + el parametro que es task.id(el cual viene de task_id) %} y este al seleccionar una tarea te redireccionará a task_detail.html y mostrará la tarea seleccionada {% endcomment %}
+                        {% comment %} <a href='{% url "task_detail" task.id%}'> esta linea se omitio {% endcomment %}
+                        {% if task.important %} 
+                        <h2 class="fw-bold text-success">{{task.title}}</h1>
+                        {% else %}
+                        <h2 class="fw-bold">{{task.title}}</h1>
+                        {% endif %}
+                        <p><strong>{{task.user.username}}</strong></p>
+                    </header>
+                    <p>{{task.description}}</p>
+                    <p>{{task.datecompleted|date:'M j Y:i'}}</p>
+                    {% comment %} </a> se omitio para el li cambiar a "a" {% endcomment %}
+                </a>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</main>
 
-            <p>{{task.datecompleted|date:'M j Y:i'}}</p>
-        </a>
-     </li>
-    {% endfor %}
-</ol>
 
 {% endblock  %}
