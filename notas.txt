@@ -525,3 +525,18 @@ Configuracion el proyecto y la podemos buscar con Djangorender.com:
             pip freeze > requirements.txt
         
 
+
+        Despues de hacer el deploy nos marco error:
+            1.Vamos a environment y agregamos una variable de entorno
+                en key agregamos PYTHON_VERSION  Y EN VALUE la version que estamos usando: 3.13.0
+            1.1 guardamos cambios
+                Ahora marco error en no module name app
+                Vamos a settings y sn startcomand cambiamos a -> gunicorn gunicorn djangocrud.wsgi
+            1.2se ejecuta de nuevo y esperamos a que ya no marque errores:
+                December 8, 2024 at 5:30 PM
+                live
+                ea6bc99comente la linea de requirement.txt dentro de build.sh
+
+                    listo indica que ya esta en produccion:
+                    GioSosaGacia / django_usermain podemos acceder a traves de ese link
+                        https://django-user-wgj3.onrender.com
