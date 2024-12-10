@@ -540,3 +540,51 @@ Configuracion el proyecto y la podemos buscar con Djangorender.com:
                     listo indica que ya esta en produccion:
                     GioSosaGacia / django_usermain podemos acceder a traves de ese link
                         https://django-user-wgj3.onrender.com
+
+me marco error 500 al crear el deploy
+Me marca error por el conector a la base de datos que es psycopg2:
+Tutorial de la creacion del crud con django: https://www.youtube.com/watch?v=e6PkGDH4wWA&t=6606s
+
+
+Servidor:
+https://dashboard.render.com/web/srv-ctb2ini3esus739eals0/events
+
+
+
+
+
+
+
+
+Por esto no funcionaba: 
+
+    Para solucionarlo, necesitas pasar el nombre de la variable de entorno que deseas obtener. Supongo que la variable de entorno que quieres obtener es algo como RENDER_EXTERNAL_HOSTNAME o similar, dependiendo de tu entorno de despliegue.
+
+Aquí te dejo una versión corregida de tu código:
+
+python
+Copiar código
+# Esta es la configuración de seguridad de Django, una lista de dominios o direcciones IP que serán consideradas válidas
+ALLOWED_HOSTS = []
+
+# Obtén el valor de la variable de entorno correcta
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
+# Si la variable de entorno existe, se agrega a ALLOWED_HOSTS
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+Explicación:
+os.environ.get('RENDER_EXTERNAL_HOSTNAME'): Esta línea obtiene el valor de la variable de entorno llamada RENDER_EXTERNAL_HOSTNAME. Si no se encuentra la variable de entorno, devolverá None, lo que evita que el código falle si la variable no está definida.
+
+Condicional if RENDER_EXTERNAL_HOSTNAME: Si la variable de entorno tiene un valor (no es None o vacía), se agrega a ALLOWED_HOSTS.
+
+Consideraciones adicionales:
+Asegúrate de que la variable de entorno RENDER_EXTERNAL_HOSTNAME esté definida en tu entorno, ya sea en un archivo .env, en la configuración del servidor o de alguna otra manera.
+Si trabajas en un entorno local, también puedes incluir direcciones como 'localhost' o '127.0.0.1' en ALLOWED_HOSTS, de modo que puedas trabajar en tu máquina sin restricciones. Algo así:
+python
+Copiar código
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+Recomendación adicional:
+Para evitar este tipo de errores en el futuro, siempre es buena práctica manejar con más cuidado las variables de entorno y asegurarse de que estén correctamente definidas antes de usarlas.
+
+Después de realizar estos cambios, intenta nuevamente ejecutar tu servidor. Esto debería resolver el error que mencionabas. Si continúas teniendo problemas, no dudes en compartir más detalles.

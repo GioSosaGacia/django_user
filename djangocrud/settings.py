@@ -34,13 +34,13 @@ DEBUG ='RENDER' not in os.environ #SE ENCARGA DE aplicar true or false segun sea
 
 
 #Esta es una configuracion de seguridad de django, es una lista de dominios o direcciones IP que serán consideradas validad
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 #Es una función de Python que se utiliza para obtener el valor de una variable de entorno. 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get
 #si esxiste la variable de entorno se agregara a allowed_host para que pueda responder peticiones de host validos o autorizados
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    ALLOWED_HOSTS.append('RENDER_EXTERNAL_HOSTNAME')
 
 
 # Application definition
@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # se agrego esta linea
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
@@ -104,7 +105,7 @@ DATABASES = {
     # Si no existe la base de datos 
     'default':dj_database_url.config(
         #usaras por defecto
-        default='postgresql://postgres:postgres@localhost/postgres',
+        default='postgresql://postgres:1993@localhost/postgres',
         conn_max_age=600
     )          
     }
@@ -146,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so we check whether we're in DEBUG mode tambien se agrego para render
 if not DEBUG:
     # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
