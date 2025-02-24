@@ -1,9 +1,14 @@
-De esta manera creamos un entorno virtual -m = modulo el ultumo venv es el nombre de la carpeta que se creará
+De esta manera creamos un entorno virtual -m = modulo el ultimo venv es el nombre de la carpeta que se creará
     C:\Python_Total\Django_crud>py -m venv venv
     python --version checa la versión de python que estaremos utilizando
 
 Para activar el entorno virtual creado venv:
-    .\venv\Scripts\activate  
+    .\venv\Scripts\activate  en cmd
+Para activar el entorno virtual en Bash es con
+    source venv/Scripts/activate
+Para ver la version de django en bash:
+    python -m django --version: Este comando le pide a Python que ejecute el módulo django y te muestre la versión instalada de Django.
+
 
 pip install django -> para instalar django 
 
